@@ -1,24 +1,15 @@
 ﻿
 let todos = [];
+let selectedIndex;
 
 let addBtn, editBtn, delBtn;
 let form, inputField;
-
 let list;
 
-list = document.getElementById('list');
-
-addBtn = document.getElementById('add-btn');
-editBtn = document.getElementById('edit-btn');
-delBtn = document.getElementById('del-btn');
-
-inputField = document.getElementById('todo');
-okBtn = document.getElementById('ok');
+getDomElements();
 
 editBtn.disabled = true;
 delBtn.disabled = true;
-
-form = document.getElementById('form'); 
 
 
 addBtn.addEventListener('click', showForm);
@@ -29,7 +20,9 @@ function showForm(e){
 	form.style.display = 'block';
 	
 	if(e.target.textContent === 'Add'){
-		console.log('Add');
+		inputField.value = '';
+	} else if (e.target.textContent === 'Edit'){
+		inputField.value = todos[selectedIndex]; 
 	}
 
 }
@@ -69,6 +62,9 @@ function addTodo(e){
 			
 			editBtn.disabled = false;
 			delBtn.disabled = false;
+			
+			selectedIndex = todos.indexOf(e.target.textContent);
+			// console.log('index: ' + index);
 		}		
 
 		
@@ -82,7 +78,20 @@ function addTodo(e){
 
 
 
+function getDomElements(){
+	
+	list = document.getElementById('list');
 
+	addBtn = document.getElementById('add-btn');
+	editBtn = document.getElementById('edit-btn');
+	delBtn = document.getElementById('del-btn');
+
+	inputField = document.getElementById('todo');
+	okBtn = document.getElementById('ok');
+	
+	form = document.getElementById('form'); 
+	
+}
 
 
 
