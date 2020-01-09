@@ -15,6 +15,7 @@ getDomElements();
 editBtn.disabled = true;
 delBtn.disabled = true;
 
+
 populateList();
 
 addBtn.addEventListener('click', showForm);
@@ -29,8 +30,8 @@ function showForm(e){
 	
 	if(e.target.textContent === 'Add'){
 		
-		inputField.value = '';
 		editMode = false;
+		inputField.value = '';
 		
 		lbl = 'Adding...';
 	
@@ -75,11 +76,10 @@ function refreshList(e){
 		
 	}
 	
-	btns.style.display = 'block';
-	
 	populateList();
 	
 	form.style.display = 'none';
+	btns.style.display = 'block';
 	
 	deselectAll();
 	
@@ -89,9 +89,12 @@ function refreshList(e){
 cancelBtn.addEventListener('click', (e) => {
 
 	e.preventDefault();
+	
 	form.style.display = 'none';
 	btns.style.display = 'block';
+	
 	deselectAll();
+	
 	return;
 
 });
@@ -100,13 +103,8 @@ cancelBtn.addEventListener('click', (e) => {
 delBtn.addEventListener('click', (e) => {
 	
 	todos.splice(selectedIndex, 1); 
-	
-	let items = document.getElementsByTagName('li'); 	
-	let itemToRemove = items[selectedIndex];
-	
-	items[selectedIndex].classList.remove('selected');
 
-	list.removeChild(itemToRemove);
+	populateList();
 	
 	editBtn.disabled = true;
 	delBtn.disabled = true;
@@ -172,8 +170,7 @@ function toggleSelect(e) {
 		selectedIndex = todos.indexOf(e.target.textContent);
 
 	}		
-
-	console.log('selIndex: ' + selectedIndex);	
+	
 }
 
 function deselectAll(){
