@@ -1,5 +1,5 @@
 ﻿
-let todos = ["Prvi zadatak", "Nesto drugo da uradim", "Treca stvar", "Na kraju i ovo"];
+let todos = ["Learn to code", "Sell apps", "Learn to play guitar", "Publish music online", "Earn money", "Buy sailboat", "Sail"];
 // let todos = [];
 let selectedIndex = -1;
 
@@ -33,14 +33,14 @@ function showForm(e){
 		editMode = false;
 		inputField.value = '';
 		
-		lbl = 'Adding...';
+		lbl = 'adding...';
 	
 	} else if (e.target.textContent === 'Edit'){
 	
 		editMode = true;
 		inputField.value = todos[selectedIndex]; 
 	
-		lbl = 'Editing...';
+		lbl = 'editing...';
 	}
 	
 	message.textContent = lbl;
@@ -148,6 +148,10 @@ function populateList(){
 
 
 function toggleSelect(e) {
+	
+	let btnsStyle = window.getComputedStyle(btns);
+	if(btnsStyle.getPropertyValue('display') === 'none')
+		return;
 		
 	let selected = e.target.classList.contains('selected');
 	
