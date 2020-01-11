@@ -159,6 +159,7 @@ function populateList(){
 function handleMouseDown(e) {
 
 	let item = e.target;
+	
 
 	let offsetY = e.clientY - item.getBoundingClientRect().top;
 
@@ -176,6 +177,8 @@ function handleMouseDown(e) {
 		items[i].style.top = listTop + parseInt(pos) + 'px';
 		
 	}
+	
+	let itemStart = item.getBoundingClientRect().top; 
 
 	item.style.zIndex = 1000;
 
@@ -187,7 +190,26 @@ function handleMouseDown(e) {
 		if(top > listBottom - 55) top = listBottom - 50;
 		
 		item.style.top = top + 'px';
-		console.log('listTop: ' + listTop + ', top: ' + top)
+		
+		// switch? 
+		if(top > itemStart + 28){
+
+			let index = todos.indexOf(item.textContent);
+			let item2Text = todos[index + 1];
+
+			let item2 = getElementsByText(item2Text)[0];
+			console.log(item2);
+			// let item2 = todos[todos.indexOf(item.textContent) + 1];
+			// item2.style.position = 'absolute';
+			item2.style.top = listTop + parseInt(index * 55) + 'px';
+			// item2.style.top = 150 + 'px';
+			
+		}		
+		
+	}
+	
+	function getElementsByText(str, tag = 'li') {
+	  return Array.prototype.slice.call(document.getElementsByTagName(tag)).filter(el => el.textContent.trim() === str.trim());
 	}
 
 	item.onmouseup = function() {
@@ -197,7 +219,8 @@ function handleMouseDown(e) {
 		let items = document.getElementsByTagName('li');
 	
 		for(var i = 0; i < items.length; i++){			
-			items[i].style.position = 'static';		
+			items[i].style.position = 'static';
+			items[i].style.zIndex = 0;
 		}
 	};
 
