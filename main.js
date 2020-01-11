@@ -185,25 +185,27 @@ function handleMouseDown(e) {
 	document.addEventListener('mousemove', onMouseMove);
 	
 	function onMouseMove(e) {
+		
 		let top = e.pageY - offsetY;
+		
 		if(top < listTop) top = listTop;
 		if(top > listBottom - 55) top = listBottom - 50;
 		
 		item.style.top = top + 'px';
 		
-		// switch? 
+		// switch
 		if(top > itemStart + 28){
 
 			let index = todos.indexOf(item.textContent);
 			let item2Text = todos[index + 1];
 
 			let item2 = getElementsByText(item2Text)[0];
-			console.log(item2);
-			// let item2 = todos[todos.indexOf(item.textContent) + 1];
-			// item2.style.position = 'absolute';
+
 			item2.style.top = listTop + parseInt(index * 55) + 'px';
-			// item2.style.top = 150 + 'px';
 			
+			todos[index] = item2Text;
+			todos[index + 1] = item.textContent;
+			itemStart += 50;
 		}		
 		
 	}
@@ -215,6 +217,8 @@ function handleMouseDown(e) {
 	item.onmouseup = function() {
 		document.removeEventListener('mousemove', onMouseMove);
 		item.onmouseup = null;
+		
+		populateList();
 		
 		let items = document.getElementsByTagName('li');
 	
