@@ -1,5 +1,5 @@
 ﻿
-let todos = ["Learn to code", "Sell apps", "Learn to play guitar", "Publish music online", "Earn money", "Buy sailboat", "Sail"];
+let todos = ["Learn to code", "Sell apps", "Learn to play guitar", "Publish music online", "Buy sailboat", "Sail"];
 // let todos = [];
 let selectedIndex = -1;
 
@@ -8,6 +8,8 @@ let form, message, inputField;
 let list;
 let okBtn, cancelBtn;
 let editMode = false;
+
+let m0, m1, drag = false, indexToMove;
 
 
 getDomElements();
@@ -69,6 +71,8 @@ function refreshList(e){
 		li.textContent = inputField.value; 
 			
 		li.addEventListener('click', toggleSelect);
+		
+
 	
 	} else if(editMode){
 		
@@ -84,7 +88,6 @@ function refreshList(e){
 	deselectAll();
 	
 }
-
 
 cancelBtn.addEventListener('click', (e) => {
 
@@ -141,10 +144,66 @@ function populateList(){
 		
 		item.addEventListener('click', toggleSelect);
 		
+		/////////////////
+		item.addEventListener('mousedown', handleMouseDown);
+		item.ondragstart = function() {
+			return false;
+		}
+		//////////////////////
+		
 		list.appendChild(item);
 		
 	}	
 }
+
+function handleMouseDown(e) {
+
+	let item = e.target;
+
+	let offsetY = e.clientY - item.getBoundingClientRect().top;
+
+	// item.style.position = 'absolute';
+	let listTop = list.getBoundingClientRect().top,
+		listBottom = list.getBoundingClientRect().bottom;
+		
+	
+	let items = document.getElementsByTagName('li');
+	
+	for(var i = 0; i < items.length; i++){
+		
+		items[i].style.position = 'absolute';
+		let pos = i * 55;	// li height + margin-bottom
+		items[i].style.top = listTop + parseInt(pos) + 'px';
+		
+	}
+
+	item.style.zIndex = 1000;
+
+	document.addEventListener('mousemove', onMouseMove);
+	
+	function onMouseMove(e) {
+		let top = e.pageY - offsetY;
+		if(top < listTop) top = listTop;
+		if(top > listBottom - 55) top = listBottom - 50;
+		
+		item.style.top = top + 'px';
+		console.log('listTop: ' + listTop + ', top: ' + top)
+	}
+
+	item.onmouseup = function() {
+		document.removeEventListener('mousemove', onMouseMove);
+		item.onmouseup = null;
+		
+		let items = document.getElementsByTagName('li');
+	
+		for(var i = 0; i < items.length; i++){			
+			items[i].style.position = 'static';		
+		}
+	};
+
+};
+
+
 
 
 function toggleSelect(e) {
