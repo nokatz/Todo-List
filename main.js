@@ -20,6 +20,8 @@ delBtn.disabled = true;
 
 populateList();
 
+	console.log(btns.getBoundingClientRect().top);
+
 addBtn.addEventListener('click', showForm);
 editBtn.addEventListener('click', showForm);
 
@@ -170,6 +172,12 @@ function handleMouseDown(e) {
 		listRight = list.getBoundingClientRect().right;
 		
 	
+	let btnsPos = btns.getBoundingClientRect().top;
+	btns.style.position = 'absolute';
+	// 30 - margin
+	btns.style.top = btnsPos  - parseInt(30) + 'px';
+
+	
 	let items = document.getElementsByTagName('li');
 	
 	for(var i = 0; i < items.length; i++){
@@ -180,6 +188,7 @@ function handleMouseDown(e) {
 		items[i].style.top = listTop + parseInt(pos) + 'px';
 		
 	}
+
 	
 	let itemStart = item.getBoundingClientRect().top; 
 
@@ -189,6 +198,9 @@ function handleMouseDown(e) {
 
 	
 	function onMouseMove(e) {
+		
+		// item.style.opacity = '0.8';
+		// item.style.backgroundColor = '#aaa';
 		
 		if((e.pageY > listBottom || e.pageY < listTop) || 
 			(e.pageX > listRight || e.pageX < listLeft)) {
@@ -255,6 +267,7 @@ function handleMouseDown(e) {
 			items[i].style.position = 'static';
 			items[i].style.zIndex = 0;
 		}
+		btns.style.position = 'static';
 	};
 
 };
