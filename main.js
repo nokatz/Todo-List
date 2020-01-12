@@ -20,8 +20,6 @@ delBtn.disabled = true;
 
 populateList();
 
-	console.log(btns.getBoundingClientRect().top);
-
 addBtn.addEventListener('click', showForm);
 editBtn.addEventListener('click', showForm);
 
@@ -139,15 +137,23 @@ function populateList(){
 	
 	list.innerHTML = "";
 	
+	let items = document.getElementsByTagName('li');
+	
+	for(let i = 0; i < items.length; i++){		
+		items[i].removeEventListener('click', toggleSelect);
+		items[i].removeEventListener('mousedown', handleMouseDown);		
+	}
+	
 	for(let i = 0; i < todos.length; i++){
 		
 		let item = document.createElement('li');
 		item.textContent = todos[i];
 		
-		item.addEventListener('click', toggleSelect);
+		// item.addEventListener('click', toggleSelect);
 		
 		/////////////////
 		item.addEventListener('mousedown', handleMouseDown);
+		// item.addEventListener('mouseup', toggleSelect);
 		item.ondragstart = function() {
 			return false;
 		}
@@ -161,7 +167,7 @@ function populateList(){
 
 
 function handleMouseDown(e) {
-
+	
 	let item = e.target;	
 
 	let offsetY = e.clientY - item.getBoundingClientRect().top;
@@ -176,7 +182,6 @@ function handleMouseDown(e) {
 	btns.style.position = 'absolute';
 	// 30 - margin
 	btns.style.top = btnsPos  - parseInt(30) + 'px';
-
 	
 	let items = document.getElementsByTagName('li');
 	
@@ -195,7 +200,6 @@ function handleMouseDown(e) {
 	item.style.zIndex = 1000;
 
 	document.addEventListener('mousemove', onMouseMove);
-
 	
 	function onMouseMove(e) {
 		
@@ -254,6 +258,8 @@ function handleMouseDown(e) {
 	
 	function finish(e) {
 		
+		
+			
 		document.removeEventListener('mousemove', onMouseMove);
 		item.removeEventListener('mouseup', finish);
 		list.removeEventListener('mouseout', finish);
@@ -268,6 +274,8 @@ function handleMouseDown(e) {
 			items[i].style.zIndex = 0;
 		}
 		btns.style.position = 'static';
+		
+		// toggleSelect(e);
 	};
 
 };
@@ -309,7 +317,7 @@ function deselectAll(){
 	
 	let items = document.getElementsByTagName('li');
 		
-	for(var i = 0; i < items.length; i++){
+	for(let i = 0; i < items.length; i++){
 		items[i].classList.remove('selected');
 	}
 	
