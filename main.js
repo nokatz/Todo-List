@@ -156,16 +156,18 @@ function populateList(){
 	}	
 }
 
+
+
 function handleMouseDown(e) {
 
-	let item = e.target;
-	
+	let item = e.target;	
 
 	let offsetY = e.clientY - item.getBoundingClientRect().top;
 
-	// item.style.position = 'absolute';
 	let listTop = list.getBoundingClientRect().top,
-		listBottom = list.getBoundingClientRect().bottom;
+		listBottom = list.getBoundingClientRect().bottom, 
+		listLeft = list.getBoundingClientRect().left, 
+		listRight = list.getBoundingClientRect().right;
 		
 	
 	let items = document.getElementsByTagName('li');
@@ -174,6 +176,7 @@ function handleMouseDown(e) {
 		
 		items[i].style.position = 'absolute';
 		let pos = i * 55;	// li height + margin-bottom
+		
 		items[i].style.top = listTop + parseInt(pos) + 'px';
 		
 	}
@@ -183,8 +186,14 @@ function handleMouseDown(e) {
 	item.style.zIndex = 1000;
 
 	document.addEventListener('mousemove', onMouseMove);
+
 	
 	function onMouseMove(e) {
+		
+		if((e.pageY > listBottom || e.pageY < listTop) || 
+			(e.pageX > listRight || e.pageX < listLeft)) {
+			finish();
+		}
 		
 		let top = e.pageY - offsetY;
 		
@@ -206,17 +215,37 @@ function handleMouseDown(e) {
 			todos[index] = item2Text;
 			todos[index + 1] = item.textContent;
 			itemStart += 50;
+		}	
+		if(top < itemStart - 28){
+
+			let index = todos.indexOf(item.textContent);
+			let item2Text = todos[index - 1];
+
+			let item2 = getElementsByText(item2Text)[0];
+
+			item2.style.top = listTop + parseInt(index * 55) + 'px';
+			
+			todos[index] = item2Text;
+			todos[index - 1] = item.textContent;
+			itemStart -= 50;
 		}		
 		
 	}
 	
 	function getElementsByText(str, tag = 'li') {
+		if(str != undefined)
 	  return Array.prototype.slice.call(document.getElementsByTagName(tag)).filter(el => el.textContent.trim() === str.trim());
 	}
 
-	item.onmouseup = function() {
+	
+	item.addEventListener('mouseup', finish);
+	
+	function finish(e) {
+		
 		document.removeEventListener('mousemove', onMouseMove);
-		item.onmouseup = null;
+		item.removeEventListener('mouseup', finish);
+		list.removeEventListener('mouseout', finish);
+		// item.onmouseup = null;
 		
 		populateList();
 		
