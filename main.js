@@ -70,7 +70,7 @@ function refreshList(e){
 		let li = document.createElement('li');
 		li.textContent = inputField.value; 
 			
-		li.addEventListener('click', toggleSelect);
+		// li.addEventListener('click', toggleSelect);
 		
 
 	
@@ -115,58 +115,9 @@ delBtn.addEventListener('click', (e) => {
 });
 
 
-function getDomElements(){
-	
-	list = document.getElementById('list');
-
-	btns = document.getElementById('btns');
-	addBtn = document.getElementById('add-btn');
-	editBtn = document.getElementById('edit-btn');
-	delBtn = document.getElementById('del-btn');
-	
-	message = document.getElementById('message');
-	inputField = document.getElementById('todo');
-	okBtn = document.getElementById('ok');
-	cancelBtn = document.getElementById('cancel');
-	
-	form = document.getElementById('form'); 
-	
-}
-
-function populateList(){
-	
-	list.innerHTML = "";
-	
-	let items = document.getElementsByTagName('li');
-	
-	for(let i = 0; i < items.length; i++){		
-		items[i].removeEventListener('click', toggleSelect);
-		items[i].removeEventListener('mousedown', handleMouseDown);		
-	}
-	
-	for(let i = 0; i < todos.length; i++){
-		
-		let item = document.createElement('li');
-		item.textContent = todos[i];
-		
-		// item.addEventListener('click', toggleSelect);
-		
-		/////////////////
-		item.addEventListener('mousedown', handleMouseDown);
-		// item.addEventListener('mouseup', toggleSelect);
-		item.ondragstart = function() {
-			return false;
-		}
-		//////////////////////
-		
-		list.appendChild(item);
-		
-	}	
-}
-
-
-
 function handleMouseDown(e) {
+	
+	m0 = e.pageY;
 	
 	let item = e.target;	
 
@@ -185,7 +136,7 @@ function handleMouseDown(e) {
 	
 	let items = document.getElementsByTagName('li');
 	
-	for(var i = 0; i < items.length; i++){
+	for(let i = 0; i < items.length; i++){
 		
 		items[i].style.position = 'absolute';
 		let pos = i * 55;	// li height + margin-bottom
@@ -258,14 +209,9 @@ function handleMouseDown(e) {
 	
 	function finish(e) {
 		
-		
-			
 		document.removeEventListener('mousemove', onMouseMove);
 		item.removeEventListener('mouseup', finish);
-		list.removeEventListener('mouseout', finish);
-		// item.onmouseup = null;
-		
-		populateList();
+		// list.removeEventListener('mouseout', finish);
 		
 		let items = document.getElementsByTagName('li');
 	
@@ -273,14 +219,41 @@ function handleMouseDown(e) {
 			items[i].style.position = 'static';
 			items[i].style.zIndex = 0;
 		}
-		btns.style.position = 'static';
+		btns.style.position = 'static';	
+
 		
-		// toggleSelect(e);
+		m1 = e.pageY;		
+		
+		if(m1 === m0){			
+			toggleSelect(e);
+		} 
+		else {
+			populateList();
+		}		
 	};
 
 };
 
 
+function populateList(){
+	
+	list.innerHTML = "";
+	
+	for(let i = 0; i < todos.length; i++){
+		
+		let item = document.createElement('li');
+		item.textContent = todos[i];
+		
+		item.addEventListener('mousedown', handleMouseDown);
+		// item.addEventListener('mouseup', toggleSelect);
+		item.ondragstart = function() {
+			return false;
+		}
+		
+		list.appendChild(item);
+		
+	}	
+}
 
 
 function toggleSelect(e) {
@@ -296,6 +269,7 @@ function toggleSelect(e) {
 	if(selected){
 
 		e.target.classList.remove('selected');
+		// selectedIndex = -1;
 
 		editBtn.disabled = true;
 		delBtn.disabled = true;
@@ -308,8 +282,8 @@ function toggleSelect(e) {
 		delBtn.disabled = false;
 		
 		selectedIndex = todos.indexOf(e.target.textContent);
-
-	}		
+		
+	}
 	
 }
 
@@ -329,6 +303,23 @@ function deselectAll(){
 
 
 
+function getDomElements(){
+	
+	list = document.getElementById('list');
+
+	btns = document.getElementById('btns');
+	addBtn = document.getElementById('add-btn');
+	editBtn = document.getElementById('edit-btn');
+	delBtn = document.getElementById('del-btn');
+	
+	message = document.getElementById('message');
+	inputField = document.getElementById('todo');
+	okBtn = document.getElementById('ok');
+	cancelBtn = document.getElementById('cancel');
+	
+	form = document.getElementById('form'); 
+	
+}
 
 
 
