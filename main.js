@@ -1,6 +1,7 @@
 ﻿
 // let todos = ["Learn to code", "Sell apps", "Learn to play guitar", "Publish music online", "Buy sailboat", "Sail"];
 // let todos = [];
+// dummy
 let selectedIndex = -1;
 
 let btns, addBtn, editBtn, delBtn;
