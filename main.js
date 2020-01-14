@@ -1,5 +1,5 @@
 ﻿
-let todos = ["Learn to code", "Sell apps", "Learn to play guitar", "Publish music online", "Buy sailboat", "Sail"];
+// let todos = ["Learn to code", "Sell apps", "Learn to play guitar", "Publish music online", "Buy sailboat", "Sail"];
 // let todos = [];
 let selectedIndex = -1;
 
@@ -18,7 +18,16 @@ editBtn.disabled = true;
 delBtn.disabled = true;
 
 
+let todos;
+
+if(window.localStorage.getItem('todos')){
+	todos = JSON.parse(window.localStorage.getItem('todos'));
+} else {
+	todos = [];
+}
+
 populateList();
+
 
 addBtn.addEventListener('click', showForm);
 editBtn.addEventListener('click', showForm);
@@ -221,8 +230,8 @@ function handleMouseDown(e) {
 		}
 		btns.style.position = 'static';	
 
-		
-		m1 = e.pageY;		
+		if(e != undefined)
+			m1 = e.pageY;		
 		
 		if(m1 === m0){			
 			toggleSelect(e);
@@ -253,6 +262,8 @@ function populateList(){
 		list.appendChild(item);
 		
 	}	
+	
+	window.localStorage.setItem('todos', JSON.stringify(todos));
 }
 
 
