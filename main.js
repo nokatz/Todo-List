@@ -161,8 +161,21 @@ function handleMouseDown(e) {
 	item.style.zIndex = 1000;
 
 	document.addEventListener('mousemove', onMouseMove);
+	document.addEventListener('touchmove', onMouseMove);
 	
 	function onMouseMove(e) {
+		
+		let x, y; 
+		
+		console.log(e.type);
+		
+		if(e.type = 'mousemove'){
+			x = e.pageX;
+			y = e.pageY;
+		} else if (e.type = 'touchmove'){
+			x = e.touches[0].pageX;
+			y = e.touches[0].pageY;
+		}
 		
 		// item.style.opacity = '0.8';
 		// item.style.backgroundColor = '#aaa';
@@ -220,6 +233,7 @@ function handleMouseDown(e) {
 	function finish(e) {
 		
 		document.removeEventListener('mousemove', onMouseMove);
+		document.removeEventListener('touchmove', onMouseMove);
 		item.removeEventListener('mouseup', finish);
 		// list.removeEventListener('mouseout', finish);
 		
