@@ -128,7 +128,7 @@ delBtn.addEventListener('click', (e) => {
 
 function handleMouseDown(e) {
 	
-	heading.textContent = "mousedown";
+	heading.textContent = e.type;;
 	
 	m0 = e.pageY;
 	
@@ -168,7 +168,7 @@ function handleMouseDown(e) {
 	
 	function onMouseMove(e) {
 		
-		e.preventDefault();
+		// e.preventDefault();
 		
 		let x, y; 
 		
@@ -237,7 +237,7 @@ function handleMouseDown(e) {
 	
 	function finish(e) {
 		
-		heading.textContent = "mouseup";
+		// heading.textContent = "mouseup";
 		
 		document.removeEventListener('mousemove', onMouseMove);
 		document.removeEventListener('touchmove', onMouseMove);
