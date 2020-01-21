@@ -165,6 +165,8 @@ function handleMouseDown(e) {
 	
 	function onMouseMove(e) {
 		
+		e.preventDefault();
+		
 		let x, y; 
 		
 		console.log(e.type);
