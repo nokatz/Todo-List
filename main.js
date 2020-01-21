@@ -4,6 +4,7 @@
 // dummy
 let selectedIndex = -1;
 
+let heading;
 let btns, addBtn, editBtn, delBtn;
 let form, message, inputField;
 let list;
@@ -127,6 +128,8 @@ delBtn.addEventListener('click', (e) => {
 
 function handleMouseDown(e) {
 	
+	heading.textContent = "mousedown";
+	
 	m0 = e.pageY;
 	
 	let item = e.target;	
@@ -234,6 +237,8 @@ function handleMouseDown(e) {
 	
 	function finish(e) {
 		
+		heading.textContent = "mouseup";
+		
 		document.removeEventListener('mousemove', onMouseMove);
 		document.removeEventListener('touchmove', onMouseMove);
 		item.removeEventListener('mouseup', finish);
@@ -332,6 +337,8 @@ function deselectAll(){
 
 
 function getDomElements(){
+	
+	heading = document.getElementsByTagName('h1')[0];
 	
 	list = document.getElementById('list');
 
